@@ -45,6 +45,11 @@ pipeline{
               sh "sudo docker ps"
             }
         }
+        stage ('Docker-CleanUp') {
+            steps {
+              sh 'sudo docker rm -f \$(sudo docker ps -a -q) 2> /dev/null || true' 
+            }
+        }
         stage ('Docker-Deploy') {
             steps {
               sh "sudo docker run -itd -p 80:80 ${Docker_Image_Name}:${env.BUILD_NUMBER}"
