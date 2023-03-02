@@ -9,12 +9,16 @@ pipeline{
         stage ('Pre-Checks'){
           steps {
             parallel(
-              Docker-Verify: {
+              stage ('Docker-Verify') {
+                  steps {
                 sh "docker --version"
-              }
-              DGit-Verify: {
+                  }
+                  }
+              stage ('Git-Verify') {
+                  steps {
                 sh "git --version"
-              }
+                  }
+                  }
             )
           }
         }
