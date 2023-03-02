@@ -5,7 +5,8 @@ pipeline{
         Docker_Tag = 'v2'
     }
     options { timestamps()
-    skipDefaultCheckout()
+    buildDiscarder(logRotator(numToKeepStr: '10'))
+    disableConcurrentBuilds()
     }
     stages{
         
@@ -15,6 +16,7 @@ pipeline{
               stage ('Docker-Verify') {
                   steps {
                 sh "docker --version"
+                sh 'sleep 30'
                   }
                   }
               stage ('Git-Verify') {
