@@ -4,6 +4,7 @@ pipeline{
         Docker_Image_Name = 'myimage'
         Docker_Tag = 'v2'
     }
+    options {timestamp()}
     stages{
         
         stage ('Pre-Checks'){
