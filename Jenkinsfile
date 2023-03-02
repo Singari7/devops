@@ -4,7 +4,9 @@ pipeline{
         Docker_Image_Name = 'myimage'
         Docker_Tag = 'v2'
     }
-    options { timestamps() }
+    options { timestamps()
+    skipDefaultCheckout()
+    }
     stages{
         
         stage ('Pre-Checks'){
@@ -26,7 +28,8 @@ pipeline{
     
         stage ('Docker-Build') {
             steps {
-                sh "sudo docker build -t ${Docker_Image_Name}:${env.BUILD_NUMBER} ."  
+                sh "sudo docker build -t ${Docker_Image_Name}:${env.BUILD_NUMBER} ."
+                sh "sudo docker inspect ${Docker_Image_Name}:${env.BUILD_NUMBER}"
             }
         }
         stage ('Docker-Image-verify') {
