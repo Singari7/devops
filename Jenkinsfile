@@ -64,6 +64,13 @@ pipeline{
               sh 'sudo docker image prune -af' 
             }
         }
-
+    }
+    post {
+    always {
+    sh 'sudo docker images'
+    }
+    aborted {
+    sh 'sudo docker ps'
+    }
     }
 }
