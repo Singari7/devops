@@ -59,6 +59,11 @@ pipeline{
               sh "sudo docker ps"
             }
         }
+         stage ('Docker-Images-CleanUp') {
+            steps {
+              sh 'sudo docker image prune -af' 
+            }
+        }
 
     }
 }
