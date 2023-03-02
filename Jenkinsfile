@@ -5,10 +5,12 @@ pipeline{
         Docker_Tag = 'v2'
     }
     stages{
-        stage ('build') {
+        stage ('docker-verify') {
             steps {
-              sh "docker --version"  
-            }
+                retry(3) {
+              sh "doker --version"  
+                }
+             }
         }
         
         stage ('Git-verify') {
