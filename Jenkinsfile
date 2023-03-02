@@ -7,8 +7,8 @@ pipeline{
     stages{
         
         stage ('Pre-Checks'){
-          steps {
-            parallel(
+        
+            parallel {
               stage ('Docker-Verify') {
                   steps {
                 sh "docker --version"
@@ -19,8 +19,8 @@ pipeline{
                 sh "git --version"
                   }
                   }
-            )
-          }
+            }
+         
         }
     
         stage ('Docker-Build') {
