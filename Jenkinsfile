@@ -17,6 +17,12 @@ pipeline{
               sh "sudo docker build -t myimage:v1 ."  
             }
         }
+        stage ('Docker-Image-verify') {
+            steps {
+              sh "sudo docker images"
+              sh "sudo docker ps"
+            }
+        }
 
     }
 }
