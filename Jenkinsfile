@@ -35,8 +35,10 @@ pipeline{
                }
         
             steps {
-                sh "sudo docker build -t ${Docker_Image_Name}:${env.BUILD_NUMBER} ."
-                sh "sudo docker inspect ${Docker_Image_Name}:${env.BUILD_NUMBER}"
+                sh 'aws ecr get-login-password --region ap-south-1 | sudo docker login --username AWS --password-stdin 531726073249.dkr.ecr.ap-south-1.amazonaws.com'
+                sh "sudo docker build -t my-jenkins-project:${env.BUILD_NUMBER} ."
+                sh "sudo docker tag my-jenkins-project:${env.BUILD_NUMBER} 531726073249.dkr.ecr.ap-south-1.amazonaws.com/my-jenkins-project:${env.BUILD_NUMBER}"
+                sh "sudo docker push 531726073249.dkr.ecr.ap-south-1.amazonaws.com/my-jenkins-project:${env.BUILD_NUMBER}"
             }
         }
         stage ('Docker-Image-verify') {
@@ -55,7 +57,7 @@ pipeline{
                 message "deploy ?"
             }
             steps {
-              sh "sudo docker run -itd -p 80:80 ${Docker_Image_Name}:${env.BUILD_NUMBER}"
+              sh "sudo docker run -itd -p 80:80 531726073249.dkr.ecr.ap-south-1.amazonaws.com/my-jenkins-project:${env.BUILD_NUMBER}"
               sh "sudo docker ps"
             }
         }
