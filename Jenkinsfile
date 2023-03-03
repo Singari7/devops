@@ -35,8 +35,10 @@ pipeline{
                }
         
             steps {
-                sh "sudo docker build -t ${Docker_Image_Name}:${env.BUILD_NUMBER} ."
-                sh "sudo docker inspect ${Docker_Image_Name}:${env.BUILD_NUMBER}"
+                sh 'aws ecr get-login-password --region ap-south-1 | sudo docker login --username AWS --password-stdin 531726073249.dkr.ecr.ap-south-1.amazonaws.com'
+                sh 'sudo docker build -t my-jenkins-project .'
+                sh 'sudo docker tag my-jenkins-project:latest 531726073249.dkr.ecr.ap-south-1.amazonaws.com/my-jenkins-project:latest'
+                sh 'sudo docker push 531726073249.dkr.ecr.ap-south-1.amazonaws.com/my-jenkins-project:latest'
             }
         }
         stage ('Docker-Image-verify') {
